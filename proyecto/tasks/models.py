@@ -1,29 +1,28 @@
 from django.db import models
 from django.contrib.auth.models import User 
 
-# Create your models here.
-class tasks(models.Model):
-    title= models.CharField(max_length=100)
-    description=models.CharField(max_length=100, blank=True)
-    created= models.DateTimeField(auto_now_add=True)
-    datecompleted=models.DateTimeField(null=True)
-    important=models.BooleanField(default= False)
-    User=models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def __str__(self) :
-        return self. title + '- by' + self.User.username
-    
-class categoria(models.model):
+class Categoria(models.Model):
     nombre=models.CharField(max_length=100)
 
-class inventario(models.model):
+class Inventario(models.Model):
     codigo=models.IntegerField()
     nombre=models.CharField(max_length=100)
     en_prestamo=models.BooleanField(default=False)
-    categoria=models.ForeignKey(categoria, on_delete=models.SET_NULL)
+    categoria=models.ForeignKey(Categoria, on_delete=models.CASCADE)
 
-class transaccion(models.Model):
-    id_inventario=models.ForeignKey(inventario,on_delete=models.CASCADE)
+class Usuario(models.Model): 
+    cedula=models.IntegerField()
+    nombre=models.CharField(max_length=100)
+
+class Tipo(models.Model):
+    nombre=models.CharField(max_length=100)
+    
+class Transaccion(models.Model):
+    id_inventario=models.ForeignKey(Inventario,on_delete=models.CASCADE)
+    id_usuario=models.ForeignKey(Usuario,on_delete=models.CASCADE)
+    id_tipo=models.ForeignKey(Tipo, on_delete=models.CASCADE)
+    fecha_hora=models.DateTimeField(auto_now_add=True)
 
 
 

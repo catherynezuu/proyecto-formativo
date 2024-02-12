@@ -1,9 +1,11 @@
 from django.forms import ModelForm
-from .models import tasks
+from .models import*
 
+class Transaccion(ModelForm):
+    class Meta:# metadatos - manejo de modelo y las filas que tendra
+        models = Usuario
 
-class TaskForm(ModelForm):
-    class Meta:
-        model= tasks
-        fields= ['title','description','important']
+        fields=['nombre']
+        
+
 

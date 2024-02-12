@@ -3,12 +3,11 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django. contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .models import tasks
-from .forms import TaskForm
+from .forms import Transaccion
 
 # Create your views here.
 def home(request):
-    return render(request,'home.html',{'form': UserCreationForm
+    return render(request,'home.html',{'form': Transaccion
     })
 
 def signup(request):
@@ -33,7 +32,7 @@ def signup(request):
     return render(request,'signup.html',{'form': UserCreationForm, "error": 'contraseña incorrecta'
     })
 
-def task(request):
+""" def task(request):
     
     if request.method == 'GET':
         Task=tasks.objects.filter(User=request.user)     
@@ -53,7 +52,7 @@ def create_task(request):
         N_tarea.user= request.user
         N_tarea.save()
         print(N_tarea)
-        return redirect('home')
+        return redirect('home') """
     
         
 
