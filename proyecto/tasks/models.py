@@ -5,24 +5,24 @@ from django.contrib.auth.models import User
 class Categoria(models.Model):
     nombre=models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.nombre
+
 class Inventario(models.Model):
-    codigo=models.IntegerField()
+    codigo=models.BigIntegerField()
     nombre=models.CharField(max_length=100)
-    en_prestamo=models.BooleanField(default=False)
     categoria=models.ForeignKey(Categoria, on_delete=models.CASCADE)
 
 class Usuario(models.Model): 
     cedula=models.IntegerField()
     nombre=models.CharField(max_length=100)
 
-class Tipo(models.Model):
-    nombre=models.CharField(max_length=100)
     
-class Transaccion(models.Model):
+class Prestamos(models.Model):
     id_inventario=models.ForeignKey(Inventario,on_delete=models.CASCADE)
     id_usuario=models.ForeignKey(Usuario,on_delete=models.CASCADE)
-    id_tipo=models.ForeignKey(Tipo, on_delete=models.CASCADE)
-    fecha_hora=models.DateTimeField(auto_now_add=True)
+    fecha_prestamo=models.DateTimeField(auto_now_add=True)
+    fecha_devolucion=models.DateTimeField(null=True, blank=True)
 
 
 

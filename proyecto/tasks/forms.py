@@ -1,11 +1,19 @@
-from django.forms import ModelForm
+from django.forms import *
 from .models import*
 
-class Transaccion(ModelForm):
-    class Meta:# metadatos - manejo de modelo y las filas que tendra
-        models = Usuario
+class PrestamosForm(forms.Form):
+    cedula_usuario = CharField(label='Cedula del usuario', max_length=100)
+    codigo_inventario = CharField(label='Codigo del inventario', max_length = 100)
+  
+class DevolucionesForm(forms.Form):
+    codigo_inventario = CharField(label='Codigo del inventario', max_length = 100)
 
-        fields=['nombre']
+class reg_inventarioForm(ModelForm):
+    class Meta:
+        model=Inventario
+        fields=['codigo', 'nombre', 'categoria']
+
+
         
 
 

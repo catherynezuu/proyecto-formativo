@@ -1,14 +1,35 @@
-{% extends 'base.html' %}
-
 {% block content %}
 {{error}}
-<form action="/signup/" method="post">
+
+<form id="prestamos_form" action="" method="post">
     {%csrf_token %}
-    {{form.as_p}} 
-    
-<button type="submit">
-    signup
-</button>
+    {{formPrestamos}}
+
+    <button type="submit">
+        enviar
+    </button>
+</form>
+
+<form id="devoluciones_form" action="" method="post">
+    {%csrf_token %}
+    {{formDevoluciones}}
+
+    <button type="submit">
+        devolver
+    </button>
 </form>
 
 {% endblock %}
+
+<script>
+    document.getElementById('prestamos_form').addEventListener('keypress', function (event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+        }
+    });
+    document.getElementById('devoluciones_form').addEventListener('keypress', function (event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+        }
+    });
+</script>

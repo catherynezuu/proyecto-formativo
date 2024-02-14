@@ -2,13 +2,29 @@ from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django. contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
+from django.forms import modelformset_factory
 from django.db import IntegrityError
-from .forms import Transaccion
+from .forms import *
+from .models import *
+
 
 # Create your views here.
 def home(request):
-    return render(request,'home.html',{'form': Transaccion
-    })
+    if request.method == 'POST':
+        """ try:
+            usuario=Usuario.objects.get(cedula=request.POST['cedula_usuario'])
+        except:
+            error="usuario no encontrado"
+            return render(request,'home.html',{'form': PrestamosForm, 'error':error})
+
+        try:
+            codigo_inventario = Inventario.objects.get(codigo=request.POST["codigo_inventario"])
+        except:
+            error = "Objeto no encontrado en el inventario"
+            return render(request,'home.html',{'form': PrestamosForm, 'error':error}) """
+        
+
+    return render(request,'home.html',{'formPrestamos': PrestamosForm, 'formDevoluciones': DevolucionesForm})
 
 def signup(request):
 
@@ -54,16 +70,17 @@ def create_task(request):
         print(N_tarea)
         return redirect('home') """
     
-        
+# cerrar sesion     
 
 def signout(request):
     logout(request)
-    return redirect('home')
+    return redirect('')
+
+# iniciar sesion
 
 def signin(request):
     if request.method == 'GET':
-        return render(request,'signin.html', {'form':AuthenticationForm
- })
+        return render(request,'signin.html', {'form':AuthenticationForm})
     else:
         user= authenticate(request, username=request.POST['username'], password=request.POST['password'])
         if user is None:
@@ -72,5 +89,17 @@ def signin(request):
         else:
             login(request, user)
             return redirect('tasks')
+        
+#registrar inventario
+        
+def inventario(request):
+    if request.method =='POST':
+        form = reg_inventarioForm(request.POST)
+        form.save()
+        return render(request, 'inventario.html', {'formreg_inventario': reg_inventarioForm })
+
+    return render(request, 'inventario.html', {'formreg_inventario': reg_inventarioForm })
+       
+
         
        
