@@ -24,5 +24,8 @@ urlpatterns = [
     path('logout/', views.signout, name='logout'),
     path('signin/', views.signin, name='signin'),
     path('inventario/', views.inventario, name='inventario'),
+    path('categoria/', views.categoria, name='categoria'),
+    path('agregar_categoria', views.add_categoria, name='agregar_categoria')
+
     
 ]

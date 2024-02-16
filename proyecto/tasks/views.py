@@ -6,6 +6,8 @@ from django.forms import modelformset_factory
 from django.db import IntegrityError
 from .forms import *
 from .models import *
+from .forms import CategoriaForm
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -88,7 +90,7 @@ def signin(request):
         
         else:
             login(request, user)
-            return redirect('tasks')
+            return redirect('home')
         
 #registrar inventario
         
@@ -99,7 +101,32 @@ def inventario(request):
         return render(request, 'inventario.html', {'formreg_inventario': reg_inventarioForm })
 
     return render(request, 'inventario.html', {'formreg_inventario': reg_inventarioForm })
-       
+
+def categoria(request):
+    form = CategoriaForm()
+    list_items = Categoria.objects.all()
+
+    return render(request, 'categoria.html', {'form': form, 'items': list_items})
+
+def add_categoria(request):
+    if request.method == 'POST':
+        form = CategoriaForm(request.POST)
+        if form.is_valid():
+            nombre_categoria = form.cleaned_data['nombre']
+            
+            if Categoria.objects.filter(nombre__iexact=nombre_categoria).exists():
+                data = {'success': False, 'message': 'La categoría ya existe'}
+                return JsonResponse(data, status=400)
+            else:
+                categoria = form.save()
+                data = {'success': True, 'message': 'Categoría agregada correctamente'}
+                return JsonResponse(data)
+        else:
+            data = {'success': False, 'errors': form.errors}
+            return JsonResponse(data, status=400)
+    else:
+        return JsonResponse({'error': 'Método no permitido'}, status=405)
+        
 
         
        
